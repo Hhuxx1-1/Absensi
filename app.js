@@ -3,8 +3,12 @@ const endpoint = "https://script.google.com/macros/s/AKfycbwSkZ2G1OAJ_PIPg9-4RpR
 fetch(endpoint, 
     { 
         method: 'POST', 
-        mode: 'no-cors', 
         headers: { 'Content-Type':'text/plain'},  
         body: 'name=JohnDoe&email=john.doe@example.com',
         redirect: 'follow'}
-    ) .then(response => console.log('Request complete')) .catch(error => console.error('Error:', error));
+    ) .then(response => { 
+        if   (response.ok) { return response.json();} 
+        else { throw new Error('Network response was not ok.');}
+    })
+    .catch(error => console.error('Error:', error));
+    
