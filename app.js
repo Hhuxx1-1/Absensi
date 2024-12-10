@@ -1,5 +1,9 @@
 const endpoint = "https://script.google.com/macros/s/AKfycbwSkZ2G1OAJ_PIPg9-4RpRaqPZ1IxACRK_w234KqsBstWxSqPW2KsL-M3--2ZZwhLcw/exec";
 const myKey = "Hhuxx1-hpq288hqls";
+const cameraInput = document.getElementById('cameraInput');
+const statuses = document.getElementById('statuses');
+const imagePreview = document.getElementById('imagePreview');
+
 var base64Image_data;
 function submitForm() {
     // Access the form data using document.getElementById
@@ -28,21 +32,20 @@ function submitForm() {
     });
 }
 
-const cameraInput = document.getElementById('cameraInput');
-const statuses = document.getElementById('statuses');
-
 // Listen for file selection
 cameraInput.addEventListener('change', (event) => {
   const file = event.target.files[0];
 
   if (!file) {
     statuses.textContent = "No file selected.";
+    imagePreview.style.display = "none";
     return;
   }
 
   // Ensure the file is an image
   if (!file.type.startsWith('image/')) {
     statuses.textContent = "Selected file is not an image.";
+    imagePreview.style.display = "none";
     return;
   }
 
@@ -50,15 +53,18 @@ cameraInput.addEventListener('change', (event) => {
   const reader = new FileReader();
   reader.onload = () => {
     const base64Image = reader.result.split(',')[1]; // Remove "data:image/*;base64," prefix
-    console.log(base64Image); // Base64 string (plain text)
+    // console.log(base64Image); // Base64 string (plain text)
     statuses.textContent = "Image ready to send!";
     base64Image_data = base64Image;
-    console.log(base64Image); // Base64 string (plain text)
+    // Display the image
+    imagePreview.src = base64Image; // Set as the src of the <img>
+    imagePreview.style.display = "block"; // Show the image
   };
 
   reader.onerror = () => {
     console.error("Error reading file.");
     statuses.textContent = "Error reading file.";
+    imagePreview.style.display = "none";
   };
 
   reader.readAsDataURL(file); // Read file as Base64 string
