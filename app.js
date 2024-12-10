@@ -139,7 +139,7 @@ function cameraCaptureListener(cameraInput,form,statuses){
                     divSubmit = createNew(form, "div", "", {id: "divSubmit"});
                 }
                 if (!submitBtn) {
-                    submitBtn = createNew(divSubmit, "input", "", {value: "submit", type: "button"});
+                    submitBtn = createNew(divSubmit, "input", "", {value: "submit", type: "submit"});
                     getLocation();
                 }
             };
