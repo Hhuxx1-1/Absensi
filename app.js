@@ -27,13 +27,11 @@ function getLocation(){
 }
 
 function submit() {
-    // Access the form data using document.getElementById
-    const data = document.getElementById('data').value;
     // Prepare the data to be sent
     const contents = {
         key :  myKey,
         action : "submit",
-        data: data
+        data: "test"
     };
     fetch(endpoint, 
     { 
