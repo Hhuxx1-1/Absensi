@@ -163,7 +163,7 @@ function handleNickname() {
       });
     } else {
       // Use the saved nickname
-      welcomeMessage.textContent = `Welcome back, ${nickname}!`;
+      welcomeMessage.textContent = `Halo, ${nickname}!`;
     }
   }
 
