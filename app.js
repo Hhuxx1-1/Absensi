@@ -3,9 +3,7 @@ const myKey = "Hhuxx1-hpq288hqls";
 
 const container = document.querySelector("section");
 
-function createNew(parentId , elementType, content, attributes = {}) {
-    // Get the parent element by its ID
-    const parent = document.getElementById(parentId);
+function createNew(parent , elementType, content, attributes = {}) {
     if (!parent) {
       console.error(`Parent element with ID "${parentId}" not found.`);
       return null; // Return null if parent doesn't exist
