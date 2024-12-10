@@ -74,9 +74,10 @@ function onStart() {
     let nickname = getCookie('nickname'); // Check if the nickname cookie exists
     const nicknameSection = createNew(container,"div","");
     if (!nickname) {
-        const nicknameForm = createNew(nicknameSection,"form","",{style:"display: none;"});
         const welcomeMessage = createNew(nicknameSection,"h1","Sepertinya Anda Baru!");
-        const nicknameInput = createNew(nicknameForm,"input","",{type:"text"});
+        const nicknameForm = createNew(nicknameSection,"form","",{style:"display: none;"});        
+        createNew(nicknameForm,"label","Masukan Nama Lengkap :",{for:"nicknameInput"});
+        const nicknameInput = createNew(nicknameForm,"input","",{type:"text", id:"nicknameInput",placeholder:"Nama Lengkap"});
         createNew(nicknameForm,"button","Konfirmasi",{type:"submit"});
         nicknameForm.addEventListener('submit', (event) => {
         event.preventDefault(); // Prevent page reload
