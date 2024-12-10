@@ -26,7 +26,9 @@ function getLocation(){
     );
 }
 
-function submit() {
+function submit(event) {
+    // Prevent form submission from reloading the page
+    event.preventDefault();
     // Prepare the data to be sent
     const contents = {
         key :  myKey,
@@ -174,8 +176,8 @@ function handleNickname() {
         if (nickname) {
           // Save the nickname as a cookie
           setCookie('nickname', nickname, 365); // Save for 1 year
-          welcomeMessage.textContent = `Welcome, ${nickname}!`;
-          nicknameForm.style.display = 'none'; // Hide the form
+          welcomeMessage.textContent = `Selamat Datang, ${nickname}!`;
+          nicknameSection.remove();
         } else {
           alert('Please enter a valid nickname.');
         }
