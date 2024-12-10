@@ -136,6 +136,7 @@ function getCookie(name) {
 
 function handleNickname() {
     const welcomeMessage = document.getElementById('welcomeMessage');
+    const nicknameSection = document.getElementById("nicknameSection");
     const nicknameForm = document.getElementById('nicknameForm');
     const nicknameInput = document.getElementById('nicknameInput');
 
@@ -164,6 +165,8 @@ function handleNickname() {
     } else {
       // Use the saved nickname
       welcomeMessage.textContent = `Halo, ${nickname}!`;
+      // Destroy nicknameSection
+      nicknameSection.remove();
     }
   }
 
