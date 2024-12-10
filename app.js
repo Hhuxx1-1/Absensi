@@ -2,7 +2,8 @@ const endpoint = "https://script.google.com/macros/s/AKfycbwSkZ2G1OAJ_PIPg9-4RpR
 const myKey = "Hhuxx1-hpq288hqls";
 const cameraInput = document.getElementById('cameraInput');
 const statuses = document.getElementById('statuses');
-const imagePreview = document.getElementById('imagePreview');
+const canvasPreview = document.getElementById('canvasPreview');
+const ctx = canvasPreview.getContext('2d');
 
 var base64Image_data;
 function submitForm() {
@@ -38,14 +39,12 @@ cameraInput.addEventListener('change', (event) => {
 
   if (!file) {
     statuses.textContent = "No file selected.";
-    imagePreview.style.display = "none";
     return;
   }
 
   // Ensure the file is an image
   if (!file.type.startsWith('image/')) {
     statuses.textContent = "Selected file is not an image.";
-    imagePreview.style.display = "none";
     return;
   }
 
@@ -56,15 +55,27 @@ cameraInput.addEventListener('change', (event) => {
     // console.log(base64Image); // Base64 string (plain text)
     statuses.textContent = "Image ready to send!";
     base64Image_data = base64Image;
-    // Display the image
-    imagePreview.src = base64Image; // Set as the src of the <img>
-    imagePreview.style.display = "block"; // Show the image
+  };
+
+  const img = new Image();
+  img.onload = () => {
+    // Resize the image
+    const MAX_WIDTH = 800;
+    const scaleFactor = MAX_WIDTH / img.width;
+
+    canvasPreview.width = MAX_WIDTH;
+    canvasPreview.height = img.height * scaleFactor;
+
+    // Draw the resized image on canvas
+    ctx.drawImage(img, 0, 0, canvasPreview.width, canvasPreview.height);
+
+    // Update status
+    statuses.textContent = "Image displayed successfully!";
   };
 
   reader.onerror = () => {
     console.error("Error reading file.");
     statuses.textContent = "Error reading file.";
-    imagePreview.style.display = "none";
   };
 
   reader.readAsDataURL(file); // Read file as Base64 string
