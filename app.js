@@ -1,9 +1,8 @@
 const endpoint = "https://script.google.com/macros/s/AKfycbwSkZ2G1OAJ_PIPg9-4RpRaqPZ1IxACRK_w234KqsBstWxSqPW2KsL-M3--2ZZwhLcw/exec";
-
+const myKey = "Hhuxx1-hpq288hqls";
 function submitForm() {
     // Access the form data using document.getElementById
     const data = document.getElementById('data').value;
-    const myKey = document.getElementById('KEY').value;
     // Prepare the data to be sent
     const contents = {
         key :  myKey,

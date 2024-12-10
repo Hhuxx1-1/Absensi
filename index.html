@@ -4,28 +4,40 @@
         <title>Absensi Foto</title>
     </head>
     <body>
+
         <h2>Selamat Datang</h2>
         <p>Silahkan Melakukan Presensi</p>
-      <!-- Form starts here -->
-      <form id="form-data">
+      
+      <form>
         <div>
-            <label for="script">Password</label>
-            <input id="KEY" type="text"  name="KEY" placeholder="Enter Your Password">
+            <label for="cameraInput">Capture an Image:</label>
+            <input 
+                type="file" 
+                id="cameraInput" 
+                accept="image/*" 
+                capture="environment"
+            >
+            <p><small>(The "capture" attribute forces camera usage on compatible devices)</small></p>
         </div>
-        <br>
-        <div>
-            <label for="script">Data</label>
-            <textarea name="data" id="data" placeholder="Your Data Goes Here"></textarea>
-        </div>
-        <br>
+      </form>
+
+      <form id="locationForm">
+        <label for="location">Get Your Location:</label>
+        <button type="button" id="getLocationBtn">Get Location</button>
+        <p id="locationResult">Location will appear here.</p>
+      </form>
+
+      <form>
         <div>
             <input type="button" value="Submit" onclick="submitForm()">
         </div>
       </form>
-    
+
       <!-- Placeholder for displaying form data -->
       <p id="output"></p>
-        <!-- include app.js -->
-         <script src="app.js"></script>
+        
+      <script src="app.js"></script>
+      <script src="location.js"></script>
+      
     </body>
 </html>
