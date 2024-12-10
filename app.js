@@ -1,14 +1,29 @@
 const endpoint = "https://script.google.com/macros/s/AKfycbwSkZ2G1OAJ_PIPg9-4RpRaqPZ1IxACRK_w234KqsBstWxSqPW2KsL-M3--2ZZwhLcw/exec";
 
-fetch(endpoint, 
+function submitForm() {
+    // Access the form data using document.getElementById
+    const data = document.getElementById('data').value;
+    const myKey = document.getElementById('KEY').value;
+    // Prepare the data to be sent
+    const contents = {
+        key :  myKey,
+        data: data
+    };
+    fetch(endpoint, 
     { 
-        method: 'POST', 
-        headers: { 'Content-Type':'text/plain'},  
-        body: 'name=JohnDoe&email=john.doe@example.com',
-        redirect: 'follow'}
-    ) .then(response => { 
-        if   (response.ok) { return response.json();} 
-        else { throw new Error('Network response was not ok.');}
+        redirect: "follow",
+        method: 'POST', // Sending a POST request
+        headers: {
+            'Content-Type': 'text/plain;charset=utf-8', // Specify content type as text
+        },
+        body: JSON.stringify(contents), // Convert data to JSON string
+        }
+    ) .then(response => response.json()) // Handle the response
+    .then(data => {
+        console.log('Success:', data); // Log the response from the server
+        document.getElementById("output").innerHTML = '<pre id="CopyThis">' + data.encscript + '</pre>'
     })
-    .catch(error => console.error('Error:', error));
-    
+    .catch((error) => {
+        console.error('Error:', error); // Log any error
+    });
+}

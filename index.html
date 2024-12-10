@@ -4,7 +4,27 @@
         <title>Absensi Foto</title>
     </head>
     <body>
-        <pre>This Website is Under Development by Hhuxx1</pre>
+        <h2>Selamat Datang</h2>
+        <p>Silahkan Melakukan Presensi</p>
+      <!-- Form starts here -->
+      <form id="form-data">
+        <div>
+            <label for="script">Password</label>
+            <input id="KEY" type="text"  name="KEY" placeholder="Enter Your Password">
+        </div>
+        <br>
+        <div>
+            <label for="script">Data</label>
+            <textarea name="data" id="data" placeholder="Your Data Goes Here"></textarea>
+        </div>
+        <br>
+        <div>
+            <input type="button" value="Submit" onclick="submitForm()">
+        </div>
+      </form>
+    
+      <!-- Placeholder for displaying form data -->
+      <p id="output"></p>
         <!-- include app.js -->
          <script src="app.js"></script>
     </body>
