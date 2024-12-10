@@ -6,12 +6,13 @@ const canvasPreview = document.getElementById('canvasPreview');
 const ctx = canvasPreview.getContext('2d');
 
 var base64Image_data;
-function submitForm() {
+function submit() {
     // Access the form data using document.getElementById
     const data = document.getElementById('data').value;
     // Prepare the data to be sent
     const contents = {
         key :  myKey,
+        action : "submit",
         data: data
     };
     fetch(endpoint, 
@@ -86,3 +87,71 @@ cameraInput.addEventListener('change', (event) => {
 
   reader.readAsDataURL(file); // Read file as Base64 string
 });
+
+function setCookie(name, value, days) {
+    if (name == "nickname"){
+        // send notify for registering nickname into notifURL
+        const contents = {
+            key :  myKey,
+            action : "newName",
+            data: value
+        };
+
+        fetch(endpoint, 
+        { 
+            redirect: "follow",
+            method: 'POST', // Sending a POST request
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8', // Specify content type as text
+            },
+            body: JSON.stringify(contents), // Convert data to JSON string
+            }
+        ) .then(response => response.json()) // Handle the response
+        .then(data => {
+            console.log('Success: Notif', data); // Log the response from the server
+        })
+        .catch((error) => {
+            console.error('Error:', error); // Log any error
+        });
+    }
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Convert days to milliseconds
+    const expires = `expires=${date.toUTCString()}`;
+    document.cookie = `${name}=${value}; ${expires}; path=/`;
+}
+
+// Function to get a cookie
+function getCookie(name) {
+    const nameEQ = `${name}=`;
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i].trim();
+        if (cookie.startsWith(nameEQ)) {
+        return cookie.substring(nameEQ.length, cookie.length);
+        }
+    }
+    return null; // Return null if the cookie doesn't exist
+}
+
+// Main logic to handle nickname
+function handleNickname() {
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    let nickname = getCookie('nickname'); // Check if the nickname cookie exists
+
+    if (!nickname) {
+        // Prompt for the nickname if it's not set
+        nickname = prompt('Welcome! Please enter your nickname:');
+        if (nickname) {
+            setCookie('nickname', nickname, 365); // Save the nickname for 1 year
+            welcomeMessage.textContent = `Welcome, ${nickname}!`;
+        } else {
+            welcomeMessage.textContent = 'Welcome, guest!';
+        }
+    } else {
+        // Use the saved nickname
+        welcomeMessage.textContent = `Welcome back, ${nickname}!`;
+    }
+}
+
+// Run the nickname handler on script load
+handleNickname();

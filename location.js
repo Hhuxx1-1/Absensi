@@ -11,11 +11,11 @@ if (!navigator.geolocation) {
 // Get the user's location
 navigator.geolocation.getCurrentPosition(
     (position) => {
-    const { latitude, longitude } = position.coords;
-    locationResult.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
+        const { latitude, longitude } = position.coords;
+        locationResult.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
     },
     (error) => {
-    locationResult.textContent = `Error: ${error.message}`;
+        locationResult.textContent = `Error: ${error.message}`; 
     }
 );
 });
