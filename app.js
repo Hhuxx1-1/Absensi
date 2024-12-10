@@ -71,6 +71,11 @@ cameraInput.addEventListener('change', (event) => {
         statuses.textContent = "Image displayed successfully!";
     };
 
+    img.onerror = () => {
+       statuses.textContent = "Error loading image.";
+    };
+
+    img.src = reader.result; // Set the image source
   };
 
 
