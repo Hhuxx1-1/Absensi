@@ -1,5 +1,5 @@
 const endpoint = "https://script.google.com/macros/s/AKfycbwSkZ2G1OAJ_PIPg9-4RpRaqPZ1IxACRK_w234KqsBstWxSqPW2KsL-M3--2ZZwhLcw/exec";
-const myKey = "Hhuxx1-hpq288hqls";
+const myKey = "Hhuxx1";
 
 const container = document.querySelector("section");
 
