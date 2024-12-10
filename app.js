@@ -5,6 +5,7 @@ var divSubmit;
 var submitBtn;
 var S_Latitude;
 var S_Longitude;
+var ctx;
 const container = document.querySelector("section");
 
 function createNew(parent , elementType, content, attributes = {}) {
@@ -168,9 +169,9 @@ function loadP(nickname) {
     const form           = createNew(container,"form","");
     const statuses       = createNew(form,"p","",{class:"info"});
     const wrapperCapture = createNew(form,"div","");
-    const cameraInput     = createNew(wrapperCapture,"input","",{ type:"file" , id:"cameraInput" ,  accept:"image/*" , capture:"environment"});
+    const cameraInput    = createNew(wrapperCapture,"input","",{ type:"file" , id:"cameraInput" ,  accept:"image/*" , capture:"environment"});
     const labelCapture   = createNew(wrapperCapture,"label","Ambil Foto",{for:"cameraInput"});
-    
+    ctx = canvas.getContext('2d');
     cameraCaptureListener(cameraInput,form,statuses);
     form.addEventListener('submit', (event) => {
         event.preventDefault(); // Prevent page reload
@@ -203,7 +204,7 @@ function loadP(nickname) {
 
 function loadNP(nickname) {
     console.log("Tampilkan Halaman Sudah Melakukan Presensi Hari Ini");
-    createNew(container,h2,"Anda Sudah Melakukan Presensi");
+    createNew(container,"h2","Anda Sudah Melakukan Presensi");
 }
 
 function loadAbsensi(nickname){
@@ -230,9 +231,9 @@ function loadAbsensi(nickname){
         console.log('Success: ', data); // Log the response from the server
         loader.remove();
         if (data.result == "OK"){
-            loadP(nickname)
-        }else{
             loadNP(nickname)
+        }else{
+            loadP(nickname)
         }
     })
     .catch((error) => {
