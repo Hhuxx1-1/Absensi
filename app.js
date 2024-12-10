@@ -4,10 +4,29 @@ const cameraInput = document.getElementById('cameraInput');
 const statuses = document.getElementById('statuses');
 const canvasPreview = document.getElementById('canvasPreview');
 const ctx = canvasPreview.getContext('2d');
-
 var base64Image_data;
+
+const locationResult = document.getElementById('locationResult');
+function getLocation(){
+    // Check if Geolocation API is supported
+    if (!navigator.geolocation) {
+      locationResult.textContent = "Geolocation is not supported by your browser.";
+      return;
+    }
+
+    // Get the user's location
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        locationResult.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
+      },
+      (error) => {
+        locationResult.textContent = `Error: ${error.message}`;
+      }
+    );
+}
+
 function submit() {
-    event.preventDefault();
     // Access the form data using document.getElementById
     const data = document.getElementById('data').value;
     // Prepare the data to be sent
@@ -28,7 +47,8 @@ function submit() {
     ) .then(response => response.json()) // Handle the response
     .then(data => {
         console.log('Success:', data); // Log the response from the server
-        document.getElementById("output").innerHTML = '<pre id="CopyThis">' + data.data + '</pre>'
+        document.getElementById("output").innerHTML = '<pre id="CopyThis">' + data.data + '</pre>';
+        getLocation();
     })
     .catch((error) => {
         console.error('Error:', error); // Log any error
