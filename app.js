@@ -70,12 +70,52 @@ function getCookie(name) {
     return null; // Return null if the cookie doesn't exist
 }
 
+function loadAbsensi(nickname){
+    console.log("user is Active");
+    createNew(container,"p","Mohon Tunggu Sebentar Developer Sedang Memasak");
+};
+
+function userIsInactive(nickname){
+    console.log("user is inactive");
+    createNew(container,"p","Sepertinya Nama Kamu Belum di Aktifkan Oleh Admin");
+}
+
+function loadUser(nickname) {
+    const contents = {
+        key :  myKey,
+        action : "checkName",
+        data: nickname
+    };
+
+    fetch(endpoint, 
+    { 
+        redirect: "follow",
+        method: 'POST', // Sending a POST request
+        headers: {
+            'Content-Type': 'text/plain;charset=utf-8', // Specify content type as text
+        },
+        body: JSON.stringify(contents), // Convert data to JSON string
+        }
+    ) .then(response => response.json()) // Handle the response
+    .then(data => {
+        console.log('Success: ', data); // Log the response from the server
+        if (data.result == "OK"){
+            loadAbsensi(nickname)
+        }else{
+            userIsInactive(nickname)
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error); // Log any error
+    });
+}
+
 function onStart() {
     let nickname = getCookie('nickname'); // Check if the nickname cookie exists
     const nicknameSection = createNew(container,"div","");
     if (!nickname) {
         const welcomeMessage = createNew(nicknameSection,"h1","Sepertinya Anda Baru!");
-        const nicknameForm = createNew(nicknameSection,"form","",{style:"display: none;"});        
+        const nicknameForm = createNew(nicknameSection,"form","",{class:"small-form"});        
         createNew(nicknameForm,"label","Masukan Nama Lengkap :",{for:"nicknameInput"});
         const nicknameInput = createNew(nicknameForm,"input","",{type:"text", id:"nicknameInput",placeholder:"Nama Lengkap"});
         createNew(nicknameForm,"button","Konfirmasi",{type:"submit"});
@@ -90,6 +130,7 @@ function onStart() {
           setCookie('nickname', nickname, 365); // Save for 1 year
           welcomeMessage.textContent = `Selamat Datang, ${nickname}!`;
           nicknameSection.remove();
+          location.reload(true);
         } else {
           alert('Please enter a valid nickname.');
         }
