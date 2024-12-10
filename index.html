@@ -4,55 +4,7 @@
         <title>Absensi Foto</title>
     </head>
     <body>
-        <section>
-            <h2 id="welcomeMessage">Selamat Datang</h2>
-
-            <p>Silahkan Melakukan Presensi</p>
-
-            <div id="previewContainer">
-                <h3>Image Preview:</h3>
-                <canvas id="canvasPreview" style="max-width: 100%;"></canvas>
-            </div>
-
-            <form>
-                <div>
-                    <label for="cameraInput">Capture an Image:</label>
-                    <input 
-                        type="file" 
-                        id="cameraInput" 
-                        accept="image/*" 
-                        capture="environment"
-                    >
-                    <p><small>(The "capture" attribute forces camera usage on compatible devices)</small></p>
-                </div>
-            </form>
-
-            <p id="statuses">Waiting for image...</p>
-
-            <form id="locationForm">
-                <p id="locationResult">Location will appear here.</p>
-            </form>
-
-            <form>
-                <div>
-                    <input type="button" value="Submit" onclick="submit()">
-                </div>
-            </form>
-
-            <!-- Placeholder for displaying form data -->
-            <p id="output"></p>
-        </section>
-
-        <section id = "nicknameSection">
-            <h1>Sepertinya Anda Baru!</h1>
-            <form id="nicknameForm" style="display: none;">
-            <label for="nicknameInput">Siapa Nama Anda?</label>
-            <input type="text" id="nicknameInput" placeholder="Nama Lengkap">
-            <button type="submit">Save</button>
-            </form>
-        </section>
-
+        <section></section>
         <script src="app.js"></script>
-
     </body>
 </html>

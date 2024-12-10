@@ -1,114 +1,32 @@
 const endpoint = "https://script.google.com/macros/s/AKfycbwSkZ2G1OAJ_PIPg9-4RpRaqPZ1IxACRK_w234KqsBstWxSqPW2KsL-M3--2ZZwhLcw/exec";
 const myKey = "Hhuxx1-hpq288hqls";
-const cameraInput = document.getElementById('cameraInput');
-const statuses = document.getElementById('statuses');
-const canvasPreview = document.getElementById('canvasPreview');
-const ctx = canvasPreview.getContext('2d');
-var base64Image_data;
 
-const locationResult = document.getElementById('locationResult');
-function getLocation(){
-    // Check if Geolocation API is supported
-    if (!navigator.geolocation) {
-      locationResult.textContent = "Geolocation is not supported by your browser.";
-      return;
+const container = document.querySelector("section");
+
+function createNew(parentId , elementType, content, attributes = {}) {
+    // Get the parent element by its ID
+    const parent = document.getElementById(parentId);
+    if (!parent) {
+      console.error(`Parent element with ID "${parentId}" not found.`);
+      return null; // Return null if parent doesn't exist
     }
-
-    // Get the user's location
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        locationResult.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
-      },
-      (error) => {
-        locationResult.textContent = `Error: ${error.message}`;
-      }
-    );
+  
+    // Create a new element
+    const newElement = document.createElement(elementType);
+    newElement.textContent = content;
+  
+    // Set attributes if provided
+    for (const [key, value] of Object.entries(attributes)) {
+      newElement.setAttribute(key, value);
+    }
+  
+    // Append the new element to the parent container
+    parent.appendChild(newElement);
+  
+    // Return the created element
+    return newElement;
 }
-
-function submit(event) {
-    // Prevent form submission from reloading the page
-    event.preventDefault();
-    // Prepare the data to be sent
-    const contents = {
-        key :  myKey,
-        action : "submit",
-        data: "test"
-    };
-    fetch(endpoint, 
-    { 
-        redirect: "follow",
-        method: 'POST', // Sending a POST request
-        headers: {
-            'Content-Type': 'text/plain;charset=utf-8', // Specify content type as text
-        },
-        body: JSON.stringify(contents), // Convert data to JSON string
-        }
-    ) .then(response => response.json()) // Handle the response
-    .then(data => {
-        console.log('Success:', data); // Log the response from the server
-        document.getElementById("output").innerHTML = '<pre id="CopyThis">' + data.data + '</pre>';
-        getLocation();
-    })
-    .catch((error) => {
-        console.error('Error:', error); // Log any error
-    });
-}
-
-// Listen for file selection
-cameraInput.addEventListener('change', (event) => {
-  const file = event.target.files[0];
-
-  if (!file) {
-    statuses.textContent = "No file selected.";
-    return;
-  }
-
-  // Ensure the file is an image
-  if (!file.type.startsWith('image/')) {
-    statuses.textContent = "Selected file is not an image.";
-    return;
-  }
-
-  // Use FileReader to read the image as Base64
-  const reader = new FileReader();
-  reader.onload = () => {
-    const base64Image = reader.result.split(',')[1]; // Remove "data:image/*;base64," prefix
-    // console.log(base64Image); // Base64 string (plain text)
-    base64Image_data = base64Image;
-    
-    const img = new Image();
-    img.onload = () => {
-        // Resize the image
-        const MAX_WIDTH = 800;
-        const scaleFactor = MAX_WIDTH / img.width;
-
-        canvasPreview.width = MAX_WIDTH;
-        canvasPreview.height = img.height * scaleFactor;
-
-        // Draw the resized image on canvas
-        ctx.drawImage(img, 0, 0, canvasPreview.width, canvasPreview.height);
-
-        // Update status
-        statuses.textContent = "Image displayed successfully!";
-    };
-
-    img.onerror = () => {
-       statuses.textContent = "Error loading image.";
-    };
-
-    img.src = reader.result; // Set the image source
-  };
-
-
-  reader.onerror = () => {
-    console.error("Error reading file.");
-    statuses.textContent = "Error reading file.";
-  };
-
-  reader.readAsDataURL(file); // Read file as Base64 string
-});
-
+  
 function setCookie(name, value, days) {
     if (name == "nickname"){
         // send notify for registering nickname into notifURL
@@ -154,20 +72,15 @@ function getCookie(name) {
     return null; // Return null if the cookie doesn't exist
 }
 
-function handleNickname() {
-    const welcomeMessage = document.getElementById('welcomeMessage');
-    const nicknameSection = document.getElementById("nicknameSection");
-    const nicknameForm = document.getElementById('nicknameForm');
-    const nicknameInput = document.getElementById('nicknameInput');
-
+function onStart() {
     let nickname = getCookie('nickname'); // Check if the nickname cookie exists
-
+    const nicknameSection = createNew(container,"div","");
     if (!nickname) {
-      // Show the form for entering a nickname
-      nicknameForm.style.display = 'block';
-
-      // Prevent form submission from reloading the page
-      nicknameForm.addEventListener('submit', (event) => {
+        const nicknameForm = createNew(nicknameSection,"form","",{style:"display: none;"});
+        const welcomeMessage = createNew(nicknameSection,"h1","Sepertinya Anda Baru!");
+        const nicknameInput = createNew(nicknameForm,"input","",{type:"text"});
+        createNew(nicknameForm,"button","Konfirmasi",{type:"submit"});
+        nicknameForm.addEventListener('submit', (event) => {
         event.preventDefault(); // Prevent page reload
 
         // Get the input value
@@ -184,11 +97,10 @@ function handleNickname() {
       });
     } else {
       // Use the saved nickname
-      welcomeMessage.textContent = `Halo, ${nickname}!`;
-      // Destroy nicknameSection
-      nicknameSection.remove();
+      createNew(container,"h1",`Halo, ${nickname}!`);
     }
   }
 
-// Run the nickname handler on script load
-handleNickname();
+window.onload = () => {
+    onStart();
+};
