@@ -1,6 +1,10 @@
 const endpoint = "https://script.google.com/macros/s/AKfycbwSkZ2G1OAJ_PIPg9-4RpRaqPZ1IxACRK_w234KqsBstWxSqPW2KsL-M3--2ZZwhLcw/exec";
 const myKey = "Hhuxx1";
-
+var base64Image_data;
+var divSubmit;
+var submitBtn;
+var S_Latitude;
+var S_Longitude;
 const container = document.querySelector("section");
 
 function createNew(parent , elementType, content, attributes = {}) {
@@ -74,9 +78,167 @@ function getCookie(name) {
     return null; // Return null if the cookie doesn't exist
 }
 
+
+function getLocation(){
+    // Check if Geolocation API is supported
+    if (!navigator.geolocation) {
+      createNew(container,"h6","Mohon Hidupkan Lokasi Anda",{class:"notif"});
+      return;
+    }
+    const locationResult = createNew(container,"h6","",{class:"notif"});
+    // Get the user's location
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        locationResult.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
+        S_Latitude = latitude;
+        S_Longitude = longitude;
+      },
+      (error) => {
+        locationResult.textContent = `Error: ${error.message}`;
+      }
+    );
+}
+
+function cameraCaptureListener(cameraInput,form,statuses){
+    cameraInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+      
+        if (!file) {
+          statuses.textContent = "No file selected.";
+          return;
+        }
+      
+        // Ensure the file is an image
+        if (!file.type.startsWith('image/')) {
+          statuses.textContent = "Selected file is not an image.";
+          return;
+        }
+      
+        // Use FileReader to read the image as Base64
+        const reader = new FileReader();
+        reader.onload = () => {
+            const base64Image = reader.result.split(',')[1]; // Remove "data:image/*;base64," prefix
+            // console.log(base64Image); // Base64 string (plain text)
+            base64Image_data = base64Image;
+            
+            const img = new Image();
+            img.onload = () => {
+                // Resize the image
+                const MAX_WIDTH = 800;
+                const scaleFactor = MAX_WIDTH / img.width;
+        
+                canvasPreview.width = MAX_WIDTH;
+                canvasPreview.height = img.height * scaleFactor;
+        
+                // Draw the resized image on canvas
+                ctx.drawImage(img, 0, 0, canvasPreview.width, canvasPreview.height);
+
+                if (!divSubmit) {
+                    divSubmit = createNew(form, "div", "", {id: "divSubmit"});
+                }
+                if (!submitBtn) {
+                    submitBtn = createNew(divSubmit, "input", "", {value: "submit", type: "button"});
+                    getLocation();
+                }
+            };
+        
+            img.onerror = () => {
+                statuses.textContent = "Error loading image.";
+            };
+        
+            img.src = reader.result; // Set the image source
+
+        };
+      
+      
+        reader.onerror = () => {
+          console.error("Error reading file.");
+          statuses.textContent = "Error reading file.";
+        };
+      
+        reader.readAsDataURL(file); // Read file as Base64 string
+      });
+}
+
+function loadP(nickname) {
+    console.log("Tampilkan Halaman Presensi");
+    const previewImage   = createNew(container,"div","",{id:"previewImage"});
+    const canvas         = createNew(previewImage,"canvas","",{id:"canvasPreview",style:"max-width: 100%;"})
+    const form           = createNew(container,"form","");
+    const statuses       = createNew(form,"p","",{class:"info"});
+    const wrapperCapture = createNew(form,"div","");
+    const cameraInput     = createNew(wrapperCapture,"input","",{ type:"file" , id:"cameraInput" ,  accept:"image/*" , capture:"environment"});
+    const labelCapture   = createNew(wrapperCapture,"label","Ambil Foto",{for:"cameraInput"});
+    
+    cameraCaptureListener(cameraInput,form,statuses);
+    form.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent page reload
+        const contents = {
+            key :  myKey,
+            action : "submit",
+            data: nickname,
+            image: base64Image_data,
+            lat : S_Latitude,
+            long: S_Longitude
+        };
+        fetch(endpoint, 
+        { 
+            redirect: "follow",
+            method: 'POST', // Sending a POST request
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8', // Specify content type as text
+            },
+            body: JSON.stringify(contents), // Convert data to JSON string
+            }
+        ) .then(response => response.json()) // Handle the response
+        .then(data => {
+            console.log('Success:', data); // Log the response from the server
+        })
+        .catch((error) => {
+            console.error('Error:', error); // Log any error
+        });
+    });
+}
+
+function loadNP(nickname) {
+    console.log("Tampilkan Halaman Sudah Melakukan Presensi Hari Ini");
+    createNew(container,h2,"Anda Sudah Melakukan Presensi");
+}
+
 function loadAbsensi(nickname){
     console.log("user is Active");
-    createNew(container,"p","Mohon Tunggu Sebentar Developer Sedang Memasak");
+    const loader = createNew(container,"p","Mohon Tunggu Sebentar",{class:"loader"});
+
+    const contents = {
+        key :  myKey,
+        action : "cekPresence",
+        data: nickname
+    };
+
+    fetch(endpoint, 
+    { 
+        redirect: "follow",
+        method: 'POST', // Sending a POST request
+        headers: {
+            'Content-Type': 'text/plain;charset=utf-8', // Specify content type as text
+        },
+        body: JSON.stringify(contents), // Convert data to JSON string
+        }
+    ) .then(response => response.json()) // Handle the response
+    .then(data => {
+        console.log('Success: ', data); // Log the response from the server
+        loader.remove();
+        if (data.result == "OK"){
+            loadP(nickname)
+        }else{
+            loadNP(nickname)
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error); // Log any error
+    });
+
 };
 
 function userIsInactive(nickname){

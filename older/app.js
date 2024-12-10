@@ -56,58 +56,7 @@ function submit(event) {
 }
 
 // Listen for file selection
-cameraInput.addEventListener('change', (event) => {
-  const file = event.target.files[0];
 
-  if (!file) {
-    statuses.textContent = "No file selected.";
-    return;
-  }
-
-  // Ensure the file is an image
-  if (!file.type.startsWith('image/')) {
-    statuses.textContent = "Selected file is not an image.";
-    return;
-  }
-
-  // Use FileReader to read the image as Base64
-  const reader = new FileReader();
-  reader.onload = () => {
-    const base64Image = reader.result.split(',')[1]; // Remove "data:image/*;base64," prefix
-    // console.log(base64Image); // Base64 string (plain text)
-    base64Image_data = base64Image;
-    
-    const img = new Image();
-    img.onload = () => {
-        // Resize the image
-        const MAX_WIDTH = 800;
-        const scaleFactor = MAX_WIDTH / img.width;
-
-        canvasPreview.width = MAX_WIDTH;
-        canvasPreview.height = img.height * scaleFactor;
-
-        // Draw the resized image on canvas
-        ctx.drawImage(img, 0, 0, canvasPreview.width, canvasPreview.height);
-
-        // Update status
-        statuses.textContent = "Image displayed successfully!";
-    };
-
-    img.onerror = () => {
-       statuses.textContent = "Error loading image.";
-    };
-
-    img.src = reader.result; // Set the image source
-  };
-
-
-  reader.onerror = () => {
-    console.error("Error reading file.");
-    statuses.textContent = "Error reading file.";
-  };
-
-  reader.readAsDataURL(file); // Read file as Base64 string
-});
 
 function setCookie(name, value, days) {
     if (name == "nickname"){
