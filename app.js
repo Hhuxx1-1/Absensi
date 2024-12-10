@@ -53,25 +53,26 @@ cameraInput.addEventListener('change', (event) => {
   reader.onload = () => {
     const base64Image = reader.result.split(',')[1]; // Remove "data:image/*;base64," prefix
     // console.log(base64Image); // Base64 string (plain text)
-    statuses.textContent = "Image ready to send!";
     base64Image_data = base64Image;
+    
+    const img = new Image();
+    img.onload = () => {
+        // Resize the image
+        const MAX_WIDTH = 800;
+        const scaleFactor = MAX_WIDTH / img.width;
+
+        canvasPreview.width = MAX_WIDTH;
+        canvasPreview.height = img.height * scaleFactor;
+
+        // Draw the resized image on canvas
+        ctx.drawImage(img, 0, 0, canvasPreview.width, canvasPreview.height);
+
+        // Update status
+        statuses.textContent = "Image displayed successfully!";
+    };
+
   };
 
-  const img = new Image();
-  img.onload = () => {
-    // Resize the image
-    const MAX_WIDTH = 800;
-    const scaleFactor = MAX_WIDTH / img.width;
-
-    canvasPreview.width = MAX_WIDTH;
-    canvasPreview.height = img.height * scaleFactor;
-
-    // Draw the resized image on canvas
-    ctx.drawImage(img, 0, 0, canvasPreview.width, canvasPreview.height);
-
-    // Update status
-    statuses.textContent = "Image displayed successfully!";
-  };
 
   reader.onerror = () => {
     console.error("Error reading file.");
