@@ -138,6 +138,7 @@ function onStart() {
     } else {
       // Use the saved nickname
       createNew(container,"h1",`Halo, ${nickname}!`);
+      loadUser(nickname)
     }
   }
 
