@@ -7,6 +7,7 @@ const ctx = canvasPreview.getContext('2d');
 
 var base64Image_data;
 function submit() {
+    event.preventDefault();
     // Access the form data using document.getElementById
     const data = document.getElementById('data').value;
     // Prepare the data to be sent
@@ -133,25 +134,38 @@ function getCookie(name) {
     return null; // Return null if the cookie doesn't exist
 }
 
-// Main logic to handle nickname
 function handleNickname() {
     const welcomeMessage = document.getElementById('welcomeMessage');
+    const nicknameForm = document.getElementById('nicknameForm');
+    const nicknameInput = document.getElementById('nicknameInput');
+
     let nickname = getCookie('nickname'); // Check if the nickname cookie exists
 
     if (!nickname) {
-        // Prompt for the nickname if it's not set
-        nickname = prompt('Welcome! Please enter your nickname:');
+      // Show the form for entering a nickname
+      nicknameForm.style.display = 'block';
+
+      // Prevent form submission from reloading the page
+      nicknameForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent page reload
+
+        // Get the input value
+        nickname = nicknameInput.value.trim();
+
         if (nickname) {
-            setCookie('nickname', nickname, 365); // Save the nickname for 1 year
-            welcomeMessage.textContent = `Welcome, ${nickname}!`;
+          // Save the nickname as a cookie
+          setCookie('nickname', nickname, 365); // Save for 1 year
+          welcomeMessage.textContent = `Welcome, ${nickname}!`;
+          nicknameForm.style.display = 'none'; // Hide the form
         } else {
-            welcomeMessage.textContent = 'Welcome, guest!';
+          alert('Please enter a valid nickname.');
         }
+      });
     } else {
-        // Use the saved nickname
-        welcomeMessage.textContent = `Welcome back, ${nickname}!`;
+      // Use the saved nickname
+      welcomeMessage.textContent = `Welcome back, ${nickname}!`;
     }
-}
+  }
 
 // Run the nickname handler on script load
 handleNickname();
