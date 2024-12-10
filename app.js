@@ -6,6 +6,7 @@ var submitBtn;
 var S_Latitude;
 var S_Longitude;
 var ctx;
+var gettingLocation_loader;
 const container = document.querySelector("section");
 
 function createNew(parent , elementType, content, attributes = {}) {
@@ -94,6 +95,7 @@ function getLocation(){
         locationResult.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
         S_Latitude = latitude;
         S_Longitude = longitude;
+        gettingLocation_loader.remove();
         submitBtn = createNew(divSubmit, "input", "", {value: "OK", type: "submit"});
       },
       (error) => {
@@ -141,6 +143,7 @@ function cameraCaptureListener(cameraInput,form,statuses,wrapperCapture){
                 }
                 if (!submitBtn) {
                     wrapperCapture.remove(); //remove the capture button
+                    gettingLocation_loader = createNew(container,"div","<h3>Sedang Mendapatkan Lokasi...</h3>");
                     getLocation();
                 }
             };
@@ -196,6 +199,11 @@ function loadP(nickname) {
         ) .then(response => response.json()) // Handle the response
         .then(data => {
             console.log('Success:', data); // Log the response from the server
+            if (data.result=="OK"){
+                container.textContent = "<h1 class=\"Center\">Berhasil Melakukan Presensi</h1>"
+            }else{
+                container.textContent = "<h1 class=\"Center\">Presensi Invalid</h1>"
+            }
         })
         .catch((error) => {
             console.error('Error:', error); // Log any error
