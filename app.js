@@ -94,6 +94,7 @@ function getLocation(){
         locationResult.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
         S_Latitude = latitude;
         S_Longitude = longitude;
+        submitBtn = createNew(divSubmit, "input", "", {value: "OK", type: "submit"});
       },
       (error) => {
         locationResult.textContent = `Error: ${error.message}`;
@@ -101,7 +102,7 @@ function getLocation(){
     );
 }
 
-function cameraCaptureListener(cameraInput,form,statuses){
+function cameraCaptureListener(cameraInput,form,statuses,wrapperCapture){
     cameraInput.addEventListener('change', (event) => {
         const file = event.target.files[0];
       
@@ -139,7 +140,7 @@ function cameraCaptureListener(cameraInput,form,statuses){
                     divSubmit = createNew(form, "div", "", {id: "divSubmit"});
                 }
                 if (!submitBtn) {
-                    submitBtn = createNew(divSubmit, "input", "", {value: "submit", type: "submit"});
+                    wrapperCapture.remove(); //remove the capture button
                     getLocation();
                 }
             };
@@ -172,7 +173,7 @@ function loadP(nickname) {
     const cameraInput    = createNew(wrapperCapture,"input","",{ type:"file" , id:"cameraInput" ,  accept:"image/*" , capture:"environment"});
     const labelCapture   = createNew(wrapperCapture,"label","Ambil Foto",{for:"cameraInput"});
     ctx = canvas.getContext('2d');
-    cameraCaptureListener(cameraInput,form,statuses);
+    cameraCaptureListener(cameraInput,form,statuses,wrapperCapture);
     form.addEventListener('submit', (event) => {
         event.preventDefault(); // Prevent page reload
         const contents = {
