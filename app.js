@@ -46,15 +46,19 @@ function setCookie(name, value, days) {
         ) .then(response => response.json()) // Handle the response
         .then(data => {
             console.log('Success: Notif', data); // Log the response from the server
+            if (data.result == "CreatedNew"){
+                createNew(container,"notif","<h1>Successfully Created</h1>");
+            }
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Convert days to milliseconds
+            const expires = `expires=${date.toUTCString()}`;
+            document.cookie = `${name}=${value}; ${expires}; path=/`;
+            location.reload(true);
         })
         .catch((error) => {
             console.error('Error:', error); // Log any error
         });
     }
-    const date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Convert days to milliseconds
-    const expires = `expires=${date.toUTCString()}`;
-    document.cookie = `${name}=${value}; ${expires}; path=/`;
 }
 
 // Function to get a cookie
@@ -81,6 +85,17 @@ function userIsInactive(nickname){
 }
 
 function loadUser(nickname) {
+
+    // validate input nickname 
+    if (typeof nickname !== 'string') {
+        throw new Error('Nickname must be a string');
+    }
+
+    // Ensure the nickname is not empty and has a length between 3 and 20 characters
+    if (nickname.trim().length === 0) {
+        throw new Error('Nickname cannot be empty');
+    }
+
     const contents = {
         key :  myKey,
         action : "checkName",
@@ -130,7 +145,6 @@ function onStart() {
           setCookie('nickname', nickname, 365); // Save for 1 year
           welcomeMessage.textContent = `Selamat Datang, ${nickname}!`;
           nicknameSection.remove();
-          location.reload(true);
         } else {
           alert('Please enter a valid nickname.');
         }
