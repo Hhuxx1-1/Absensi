@@ -154,6 +154,10 @@ function makeExtraForm() {
         errorContainer.addEventListener("click", () => {
             errorContainer.remove(); // Remove the error container from the DOM
         });
+        // Automatically remove after 3 seconds
+        setTimeout(() => {
+            errorContainer.remove(); // Remove after 3 seconds
+        }, 3000);
         // Prepare Data
         const namaKegiatan = inputNamaKegiatan.value;
         const namaKoperasi = inputNamaKoperasi.value;
