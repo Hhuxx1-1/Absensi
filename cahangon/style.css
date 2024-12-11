@@ -217,8 +217,18 @@ div {
     max-width: 500px;
     margin: 20px auto;
     width: 80%;
+    overflow-y: auto;
+}
+  
+#extra-form::-webkit-scrollbar {
+    display: none; /* Hides the scrollbar in webkit browsers like Chrome and Safari */
 }
 
+#extra-form {
+    -ms-overflow-style: none;  /* Hides the scrollbar in Internet Explorer and Edge */
+    scrollbar-width: none; /* Hides the scrollbar in Firefox */
+}
+  
 /* Style the labels */
 #extra-form label {
     display: block;
