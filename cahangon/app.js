@@ -69,10 +69,121 @@ function setCookie(name, value, days) {
         });
     }
 }
+function makeExtraForm() {
+    container.innerHTML = ""; // Clear the container
 
-function makeExtraForm(){
+    // Create a dynamic form structure
+    const diver = createNew(container, "div", "", { id: "extra-form" });
+    const formKegiatan = createNew(diver, "form", "", { id: "dynamicForm" });
 
+    // Input fields and labels
+    const labelNamaKegiatan = createNew(formKegiatan, "label", "Nama Kegiatan", { for: "namaKegiatan" });
+    const inputNamaKegiatan = createNew(formKegiatan, "input", "", { id: "namaKegiatan", type: "text", name: "namaKegiatan" });
+    createNew(formKegiatan, "br", "");
+
+    const labelNamaKoperasi = createNew(formKegiatan, "label", "Nama Koperasi yang Didampingi", { for: "namaKoperasi" });
+    const inputNamaKoperasi = createNew(formKegiatan, "input", "", { id: "namaKoperasi", type: "text", name: "namaKoperasi" });
+    createNew(formKegiatan, "br", "");
+
+    const labelNamaLokasi = createNew(formKegiatan, "label", "Lokasi", { for: "Lokasi" });
+    const inputNamaLokasi = createNew(formKegiatan, "input", "", { id: "Lokasi", type: "text", name: "Lokasi" });
+    createNew(formKegiatan, "br", "");
+
+    const labelFileKegiatan = createNew(formKegiatan, "label", "Upload Images", { for: "fileKegiatan" });
+    const inputFileKegiatan = createNew(formKegiatan, "input", "", { id: "fileKegiatan", type: "file", name: "fileKegiatan", accept: "image/*", multiple: true });
+    createNew(formKegiatan, "br", "");
+
+    const previewContainer = createNew(formKegiatan, "div", "", { id: "imagePreviewContainer" });
+    createNew(formKegiatan, "br", "");
+
+    const submitButton = createNew(formKegiatan, "input", "", { type: "submit", value: "Kirim Laporan" });
+
+    // Event Listener for Form Submission
+    formKegiatan.addEventListener("submit", async (event) => {
+        event.preventDefault(); // Prevent page reload
+
+        // Validation
+        const errors = [];
+        if (!inputNamaKegiatan.value.trim()) errors.push("Nama Kegiatan is required.");
+        if (!inputNamaKoperasi.value.trim()) errors.push("Nama Koperasi is required.");
+        if (!inputNamaLokasi.value.trim()) errors.push("Lokasi is required.");
+        if (inputFileKegiatan.files.length === 0) errors.push("At least one image must be uploaded.");
+
+        if (errors.length > 0) {
+            alert(errors.join("\n"));
+            return;
+        }
+
+        // Prepare Data
+        const namaKegiatan = inputNamaKegiatan.value;
+        const namaKoperasi = inputNamaKoperasi.value;
+        const namaLokasi = inputNamaLokasi.value;
+
+        // Convert images to Base64
+        const base64Images = [];
+        for (const file of inputFileKegiatan.files) {
+            const base64 = await convertFileToBase64(file);
+            base64Images.push(base64);
+        }
+
+        // Preview images
+        previewContainer.innerHTML = ""; // Clear previous previews
+        base64Images.forEach((base64, index) => {
+            createNew(previewContainer, "img", "", { src: base64, alt: `Preview ${index + 1}`, width: "150" });
+        });
+
+        // Data to send
+        const contents = {
+            key: myKey,
+            action: "extraSubmit_form",
+            data: nickname,
+            images: base64Images,
+            lat: S_Latitude,
+            long: S_Longitude,
+            kegiatan: namaKegiatan,
+            koperasi: namaKoperasi,
+            lokasi:namaLokasi,
+        };
+
+        // Send the data using Fetch
+        try {
+            container.innerHTML = ""; // Clear content
+            createNew(container, "h2", "Mengirim Data", { class: "center" });
+
+            const response = await fetch(endpoint, {
+                redirect: "follow",
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8",
+                },
+                body: JSON.stringify(contents),
+            });
+            const data = await response.json();
+
+            container.innerHTML = ""; // Clear content
+            if (data.result === "OK") {
+                createNew(container, "h1", "Kirim Laporan Berhasil");
+            } else {
+                createNew(container, "h1", "Kirim Laporan Gagal");
+                createNew(container, "p", "Jika Masalah tetap Berlanjut Hubungi Admin");
+            }
+        } catch (error) {
+            console.error("Error:", error); // Log any error
+            createNew(container, "h1", "Kirim Laporan Gagal");
+        }
+    });
+
+    // Helper function to convert file to Base64
+    function convertFileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
 }
+
 
 function reloadPage() {
     location.reload(true); // Reloads the page
@@ -217,6 +328,11 @@ function loadP(nickname) {
             container.textContent = ""
             if (data.result=="OK"){
                 createNew(container,"h1","Presensi Berhasil");
+                createNew(container,"p","Setelah Melakukan Presensi anda Bisa Membuat Laporan Kegiatan dengan menekan Tombol \"Buat Laporan\"");
+                if (!divSubmit) {
+                    divSubmit = createNew(container, "div", "", {id: "divSubmit"});
+                }
+                createNew(divSubmit,"input","",{type:"button",onclick:"makeExtraForm()",value:"Buat Laporan"})
             }else{
                 createNew(container,"h1","Presensi Gagal");
                 createNew(container,p,"Jika Masalah tetap Berlanjut Hubungi Atmin");
@@ -229,8 +345,11 @@ function loadP(nickname) {
 }
 
 function loadNP() {
-    console.log("Tampilkan Halaman Sudah Melakukan Presensi Hari Ini");
     createNew(container,"h2","Anda Sudah Melakukan Presensi");
+    if (!divSubmit) {
+        divSubmit = createNew(container, "div", "", {id: "divSubmit"});
+    }
+    createNew(divSubmit,"input","",{type:"button",onclick:"makeExtraForm()",value:"Buat Laporan"})
 }
 
 function loadAbsensi(nickname){
