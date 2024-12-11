@@ -263,7 +263,7 @@ div {
 }
 
 /* Style the preview images */
-#extra-form #imagePreviewContainer img {
+#extra-form #imagePreviewContainer canvas {
     width: 100px;
     height: auto;
     border: 1px solid #ccc;
