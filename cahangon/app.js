@@ -69,6 +69,7 @@ function setCookie(name, value, days) {
         });
     }
 }
+
 function makeExtraForm() {
     container.innerHTML = ""; // Clear the container
 
@@ -98,43 +99,41 @@ function makeExtraForm() {
 
     const submitButton = createNew(formKegiatan, "input", "", { type: "submit", value: "Kirim Laporan" });
 
-    // Add an event listener for the 'change' event
-    inputFileKegiatan.addEventListener("change", (event) => {
-         // Convert images to Base64
-         const base64Images = [];
-         for (const file of inputFileKegiatan.files) {
-             const base64 = await convertFileToBase64(file);
-             base64Images.push(base64);
-         }
- 
-     // Preview images using canvas
-     previewContainer.innerHTML = ""; // Clear previous previews
-     base64Images.forEach((base64, index) => {
-         const img = new Image();
-         img.src = base64;
- 
-         img.onload = () => {
-             const canvas = document.createElement("canvas");
-             const ctx = canvas.getContext("2d");
- 
-             // Set desired width and height for the canvas
-             const maxWidth = 150;
-             const aspectRatio = img.width / img.height;
-             canvas.width = maxWidth;
-             canvas.height = maxWidth / aspectRatio;
- 
-             // Draw the resized image onto the canvas
-             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
- 
-             // Append the canvas to the preview container
-             previewContainer.appendChild(canvas);
-         };
- 
-         img.onerror = () => {
-             console.error(`Error loading image at index ${index}`);
-         };
-     });
+    inputFileKegiatan.addEventListener("change", async (event) => {
+        const files = Array.from(inputFileKegiatan.files);
+        try {
+            const base64Images = await Promise.all(files.map(file => convertFileToBase64(file)));
+    
+            // Clear previous previews
+            previewContainer.innerHTML = "";
+    
+            // Preview images
+            base64Images.forEach((base64, index) => {
+                const img = new Image();
+                img.src = base64;
+    
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
+    
+                    const maxWidth = 150;
+                    const aspectRatio = img.width / img.height;
+                    canvas.width = maxWidth;
+                    canvas.height = maxWidth / aspectRatio;
+    
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    previewContainer.appendChild(canvas);
+                };
+    
+                img.onerror = () => {
+                    console.error(`Error loading image at index ${index}`);
+                };
+            });
+        } catch (error) {
+            console.error("Error processing files:", error);
+        }
     });
+    
 
     // Event Listener for Form Submission
     formKegiatan.addEventListener("submit", async (event) => {
@@ -146,8 +145,10 @@ function makeExtraForm() {
         if (!inputNamaKoperasi.value.trim()) errors.push("Nama Koperasi is required.");
         if (!inputNamaLokasi.value.trim()) errors.push("Lokasi is required.");
 
+        const errorContainer = createNew(formKegiatan, "div", "", { id: "errorContainer", class: "error-container" });
+        errorContainer.innerHTML = ""; // Clear errors
         if (errors.length > 0) {
-            alert(errors.join("\n"));
+            errors.forEach((error) => createNew(errorContainer, "p", error));
             return;
         }
 
