@@ -68,6 +68,10 @@ function setCookie(name, value, days) {
     }
 }
 
+function reloadPage() {
+    location.reload(true); // Reloads the page
+}
+
 // Function to get a cookie
 function getCookie(name) {
     const nameEQ = `${name}=`;
@@ -260,8 +264,9 @@ function loadAbsensi(nickname){
 };
 
 function userIsInactive(nickname){
-    console.log("user is inactive");
+    // console.log("user is inactive");
     createNew(container,"p","Sepertinya Nama Kamu Belum di Aktifkan Oleh Admin");
+    createNew(container,"input","",{type:"button",onclick:"reloadPage()",value:"Refresh"})
 }
 
 function loadUser(nickname) {
