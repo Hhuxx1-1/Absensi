@@ -144,7 +144,7 @@ function cameraCaptureListener(cameraInput,form,statuses,wrapperCapture){
                 if (!submitBtn) {
                     wrapperCapture.remove(); //remove the capture button
                     gettingLocation_loader = createNew(container,"div","",{class:"center"});
-                    createNew(gettingLocation_loader,"h3","Sedang Mendapatkan Lokasi Anda");
+                    createNew(gettingLocation_loader,"p","Sedang Mendapatkan Lokasi Anda");
                     getLocation();
                 }
             };
@@ -259,6 +259,10 @@ function loadAbsensi(nickname){
 function userIsInactive(nickname){
     console.log("user is inactive");
     createNew(container,"p","Sepertinya Nama Kamu Belum di Aktifkan Oleh Admin");
+    if (!divSubmit) {
+        divSubmit = createNew(form, "div", "", {id: "divSubmit"});
+    }
+    
 }
 
 function loadUser(nickname) {

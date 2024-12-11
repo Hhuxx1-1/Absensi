@@ -265,7 +265,10 @@ function loadAbsensi(nickname){
 function userIsInactive(nickname){
     // console.log("user is inactive");
     createNew(container,"p","Sepertinya Nama Kamu Belum di Aktifkan Oleh Admin");
-    createNew(container,"input","",{type:"button",onclick:"reloadPage()",value:"Refresh",id:"div-form"})
+    if (!divSubmit) {
+        divSubmit = createNew(form, "div", "", {id: "divSubmit"});
+    }
+    createNew(divSubmit,"input","",{type:"button",onclick:"reloadPage()",value:"Refresh"})
 }
 
 function loadUser(nickname) {
