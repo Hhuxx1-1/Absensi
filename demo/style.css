@@ -141,3 +141,34 @@ form button {
 form button:hover {
     background-color: #0056b3;
 }
+
+p.info {
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+    margin: 0;
+}
+
+#divSubmit {
+    text-align: center;
+}
+
+#divSubmit input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#divSubmit input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+#divSubmit input[type="submit"]:active {
+    transform: scale(0.98);
+    background-color: #1e7e34;
+}
