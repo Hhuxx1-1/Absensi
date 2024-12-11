@@ -101,10 +101,12 @@ function makeExtraForm() {
     const submitButton = createNew(formKegiatan, "input", "", { type: "submit", value: "Kirim Laporan" });
     const errorContainer = createNew(formKegiatan, "div", "", { id: "errorContainer", class: "error-container" });
 
+    var base64Images;
+
     inputFileKegiatan.addEventListener("change", async (event) => {
         const files = Array.from(inputFileKegiatan.files);
         try {
-            const base64Images = await Promise.all(files.map(file => convertFileToBase64(file)));
+            base64Images = await Promise.all(files.map(file => convertFileToBase64(file)));
     
             // Clear previous previews
             previewContainer.innerHTML = "";
@@ -152,20 +154,20 @@ function makeExtraForm() {
             errors.forEach((error) => 
                 createNew(errorContainer, "p", error)
             );
+            // Add a click event listener to remove it manually
+            errorContainer.addEventListener("click", () => {
+                errorContainer.innerHTML = ""
+            });
+    
+            // Automatically remove after 3 seconds
+            setTimeout(() => {
+            // console.log("Timeout triggered"); // Debug message
+            if (document.body.contains(errorContainer)) { // Check if it's still in the DOM
+                errorContainer.innerHTML = ""
+            }
+            }, 3000);
             return;
         }
-        // Add a click event listener to remove it manually
-        errorContainer.addEventListener("click", () => {
-           errorContainer.innerHTML = ""
-        });
-
-        // Automatically remove after 3 seconds
-        setTimeout(() => {
-        console.log("Timeout triggered"); // Debug message
-        if (document.body.contains(errorContainer)) { // Check if it's still in the DOM
-           errorContainer.innerHTML = ""
-        }
-        }, 3000);
         // Prepare Data
         const namaKegiatan = inputNamaKegiatan.value;
         const namaKoperasi = inputNamaKoperasi.value;
