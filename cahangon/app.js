@@ -8,6 +8,7 @@ var S_Longitude;
 var ctx;
 var gettingLocation_loader;
 var nicknameSection;
+var nickname_;
 const container = document.querySelector("section");
 
 function createNew(parent , elementType, content, attributes = {}) {
@@ -175,7 +176,7 @@ function makeExtraForm() {
         const contents = {
             key: myKey,
             action: "extraSubmit_form",
-            data: nickname,
+            data: nickname_,
             images: base64Images,
             lat: S_Latitude,
             long: S_Longitude,
@@ -502,6 +503,7 @@ function onStart() {
     } else {
       // Use the saved nickname
       createNew(container,"h1",`Halo, ${nickname}!`);
+      nickname_ = nickname;
       loadUser(nickname)
     }
   }
