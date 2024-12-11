@@ -13,7 +13,10 @@ section {
     background: linear-gradient(135deg, #22211e 0%, #22211e 100%);
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 20px;
+}
+
+section *{
+    width: 95%;
 }
 
 body {
@@ -153,7 +156,8 @@ p.info {
 
 #divSubmit input[type="submit"] {
     padding: 10px 20px;
-    font-size: 1rem;
+    font-size: 1.3rem;
+    font-weight: bold;
     color: white;
     background-color: #28a745;
     border: none;
