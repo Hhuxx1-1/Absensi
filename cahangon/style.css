@@ -25,7 +25,6 @@ body {
 }
 
 h1 {
-    font-family: 'Pacifico', cursive;
     font-size: 2rem;
     color: #f1e6e6;
     margin-bottom: 20px;
@@ -33,7 +32,6 @@ h1 {
 }
 
 h2 {
-    font-family: 'Pacifico', cursive;
     font-size: 1.5rem;
     color: #f1e6e6;
     margin-bottom: 20px;
@@ -86,20 +84,21 @@ form label {
     padding: 10px 20px;
     font-size: 1rem;
     font-weight: bold;
-    color: white;
-    background: #ff7f7f;
+    color: wheat;
+    background: #000000;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s ease;
+    outline: wheat 2px solid;
 }
 
 form label:hover {
-    background: #ff4c4c;
+    background: #191919;
 }
 
 form label:active {
-    background: #e33e3e;
+    background: #323131;
 }
 
 form.small-form {
