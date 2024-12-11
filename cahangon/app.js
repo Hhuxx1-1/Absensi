@@ -148,15 +148,23 @@ function makeExtraForm() {
         const errorContainer = createNew(formKegiatan, "div", "", { id: "errorContainer", class: "error-container" });
         errorContainer.innerHTML = ""; // Clear errors
         if (errors.length > 0) {
-            errors.forEach((error) => createNew(errorContainer, "p", error));
+            errors.forEach((error) => 
+                createNew(errorContainer, "p", error)
+            );
             return;
         }
+        // Add a click event listener to remove it manually
         errorContainer.addEventListener("click", () => {
-            errorContainer.remove(); // Remove the error container from the DOM
+            console.log("Error container clicked"); // Debug message
+            errorContainer.remove(); // Remove on click
         });
+
         // Automatically remove after 3 seconds
         setTimeout(() => {
+        console.log("Timeout triggered"); // Debug message
+        if (document.body.contains(errorContainer)) { // Check if it's still in the DOM
             errorContainer.remove(); // Remove after 3 seconds
+        }
         }, 3000);
         // Prepare Data
         const namaKegiatan = inputNamaKegiatan.value;
