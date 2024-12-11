@@ -126,11 +126,34 @@ function makeExtraForm() {
             base64Images.push(base64);
         }
 
-        // Preview images
-        previewContainer.innerHTML = ""; // Clear previous previews
-        base64Images.forEach((base64, index) => {
-            createNew(previewContainer, "img", "", { src: base64, alt: `Preview ${index + 1}`, width: "150" });
-        });
+    // Preview images using canvas
+    previewContainer.innerHTML = ""; // Clear previous previews
+    base64Images.forEach((base64, index) => {
+        const img = new Image();
+        img.src = base64;
+
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            // Set desired width and height for the canvas
+            const maxWidth = 150;
+            const aspectRatio = img.width / img.height;
+            canvas.width = maxWidth;
+            canvas.height = maxWidth / aspectRatio;
+
+            // Draw the resized image onto the canvas
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            // Append the canvas to the preview container
+            previewContainer.appendChild(canvas);
+        };
+
+        img.onerror = () => {
+            console.error(`Error loading image at index ${index}`);
+        };
+    });
+
 
         // Data to send
         const contents = {
