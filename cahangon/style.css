@@ -50,6 +50,7 @@ p {
 }
 
 #previewImage {
+    position: absolute;
     margin: 20px 0;
 }
 
@@ -157,9 +158,11 @@ p.info {
 }
 
 #divSubmit {
+    position: fixed;
     text-align: center;
+    bottom: 10%;
+    width: 60%;
 }
-
 #divSubmit input[type="submit"] {
     padding: 10px 20px;
     font-size: 1.3rem;
@@ -189,4 +192,12 @@ div {
 
 #div-form {
     width: 70%;
+}
+
+.notif {
+    position: fixed;
+    top: 3%;
+    background: #00000080;
+    padding: 0.2rem;
+    font-size: 1rem;
 }
