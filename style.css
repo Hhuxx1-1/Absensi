@@ -101,3 +101,43 @@ form label:hover {
 form label:active {
     background: #e33e3e;
 }
+
+
+form.small-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+form.small-form label {
+    font-size: 1rem;
+    color: #555;
+}
+
+form input[type="text"] {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus {
+    border-color: #007bff;
+}
+
+form button {
+    padding: 10px;
+    font-size: 1rem;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
