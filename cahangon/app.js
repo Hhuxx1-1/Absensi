@@ -98,6 +98,44 @@ function makeExtraForm() {
 
     const submitButton = createNew(formKegiatan, "input", "", { type: "submit", value: "Kirim Laporan" });
 
+    // Add an event listener for the 'change' event
+    inputFileKegiatan.addEventListener("change", (event) => {
+         // Convert images to Base64
+         const base64Images = [];
+         for (const file of inputFileKegiatan.files) {
+             const base64 = await convertFileToBase64(file);
+             base64Images.push(base64);
+         }
+ 
+     // Preview images using canvas
+     previewContainer.innerHTML = ""; // Clear previous previews
+     base64Images.forEach((base64, index) => {
+         const img = new Image();
+         img.src = base64;
+ 
+         img.onload = () => {
+             const canvas = document.createElement("canvas");
+             const ctx = canvas.getContext("2d");
+ 
+             // Set desired width and height for the canvas
+             const maxWidth = 150;
+             const aspectRatio = img.width / img.height;
+             canvas.width = maxWidth;
+             canvas.height = maxWidth / aspectRatio;
+ 
+             // Draw the resized image onto the canvas
+             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+ 
+             // Append the canvas to the preview container
+             previewContainer.appendChild(canvas);
+         };
+ 
+         img.onerror = () => {
+             console.error(`Error loading image at index ${index}`);
+         };
+     });
+    });
+
     // Event Listener for Form Submission
     formKegiatan.addEventListener("submit", async (event) => {
         event.preventDefault(); // Prevent page reload
@@ -107,7 +145,6 @@ function makeExtraForm() {
         if (!inputNamaKegiatan.value.trim()) errors.push("Nama Kegiatan is required.");
         if (!inputNamaKoperasi.value.trim()) errors.push("Nama Koperasi is required.");
         if (!inputNamaLokasi.value.trim()) errors.push("Lokasi is required.");
-        if (inputFileKegiatan.files.length === 0) errors.push("At least one image must be uploaded.");
 
         if (errors.length > 0) {
             alert(errors.join("\n"));
@@ -118,42 +155,6 @@ function makeExtraForm() {
         const namaKegiatan = inputNamaKegiatan.value;
         const namaKoperasi = inputNamaKoperasi.value;
         const namaLokasi = inputNamaLokasi.value;
-
-        // Convert images to Base64
-        const base64Images = [];
-        for (const file of inputFileKegiatan.files) {
-            const base64 = await convertFileToBase64(file);
-            base64Images.push(base64);
-        }
-
-    // Preview images using canvas
-    previewContainer.innerHTML = ""; // Clear previous previews
-    base64Images.forEach((base64, index) => {
-        const img = new Image();
-        img.src = base64;
-
-        img.onload = () => {
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d");
-
-            // Set desired width and height for the canvas
-            const maxWidth = 150;
-            const aspectRatio = img.width / img.height;
-            canvas.width = maxWidth;
-            canvas.height = maxWidth / aspectRatio;
-
-            // Draw the resized image onto the canvas
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-            // Append the canvas to the preview container
-            previewContainer.appendChild(canvas);
-        };
-
-        img.onerror = () => {
-            console.error(`Error loading image at index ${index}`);
-        };
-    });
-
 
         // Data to send
         const contents = {

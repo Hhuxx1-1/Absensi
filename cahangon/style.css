@@ -260,6 +260,8 @@ div {
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 15px;
+    flex-direction: row;
+    justify-content: center;
 }
 
 /* Style the preview images */
