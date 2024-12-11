@@ -289,3 +289,18 @@ label[for="fileKegiatan"] {
     font-size: 1.3rem;
     border-radius: 7px;
 }
+
+div#errorContainer {
+    position: absolute;
+    top: 7%;
+    width: 70%;
+}
+
+#errorContainer p {
+    font-size: 1.2rem;
+    color: white;
+    background: #7a0101;
+    margin: 6px 17px;
+    border-radius: 7px;
+    padding: 7px;
+}

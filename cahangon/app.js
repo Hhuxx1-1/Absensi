@@ -151,7 +151,9 @@ function makeExtraForm() {
             errors.forEach((error) => createNew(errorContainer, "p", error));
             return;
         }
-
+        errorContainer.addEventListener("click", () => {
+            errorContainer.remove(); // Remove the error container from the DOM
+        });
         // Prepare Data
         const namaKegiatan = inputNamaKegiatan.value;
         const namaKoperasi = inputNamaKoperasi.value;
