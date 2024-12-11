@@ -266,7 +266,7 @@ function userIsInactive(nickname){
     // console.log("user is inactive");
     createNew(container,"p","Sepertinya Nama Kamu Belum di Aktifkan Oleh Admin");
     if (!divSubmit) {
-        divSubmit = createNew(form, "div", "", {id: "divSubmit"});
+        divSubmit = createNew(container, "div", "", {id: "divSubmit"});
     }
     createNew(divSubmit,"input","",{type:"button",onclick:"reloadPage()",value:"Refresh"})
 }
