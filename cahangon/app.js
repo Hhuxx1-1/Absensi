@@ -7,6 +7,7 @@ var S_Latitude;
 var S_Longitude;
 var ctx;
 var gettingLocation_loader;
+var nicknameSection;
 const container = document.querySelector("section");
 
 function createNew(parent , elementType, content, attributes = {}) {
@@ -168,10 +169,12 @@ function cameraCaptureListener(cameraInput,form,statuses,wrapperCapture){
 }
 
 function loadP(nickname) {
-    console.log("Tampilkan Halaman Presensi");
+    // console.log("Tampilkan Halaman Presensi");
+    nicknameSection.remove();
     const previewImage   = createNew(container,"div","",{id:"previewImage"});
     const canvas         = createNew(previewImage,"canvas","",{id:"canvasPreview",style:"max-width: 100%;"})
-    const form           = createNew(container,"form","");
+    const divform        = createNew(container,"div","",{id:"div-form"});
+    const form           = createNew(divform,"form","");
     const statuses       = createNew(form,"p","",{class:"info"});
     const wrapperCapture = createNew(form,"div","");
     const cameraInput    = createNew(wrapperCapture,"input","",{ type:"file" , id:"cameraInput" ,  accept:"image/*" , capture:"environment"});
@@ -304,7 +307,7 @@ function loadUser(nickname) {
 
 function onStart() {
     let nickname = getCookie('nickname'); // Check if the nickname cookie exists
-    const nicknameSection = createNew(container,"div","",{id:"div-form"});
+    nicknameSection = createNew(container,"div","",{id:"div-form"});
     if (!nickname) {
         const welcomeMessage = createNew(nicknameSection,"h1","Sepertinya Anda Baru!");
         const nicknameForm = createNew(nicknameSection,"form","",{class:"small-form"});        
