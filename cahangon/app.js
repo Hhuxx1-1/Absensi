@@ -174,7 +174,6 @@ function cameraCaptureListener(cameraInput,form,statuses,wrapperCapture){
 
 function loadP(nickname) {
     // console.log("Tampilkan Halaman Presensi");
-    nicknameSection.remove();
     const previewImage   = createNew(container,"div","",{id:"previewImage"});
     const canvas         = createNew(previewImage,"canvas","",{id:"canvasPreview",style:"max-width: 100%;"})
     const divform        = createNew(container,"div","",{id:"div-form"});
@@ -229,7 +228,7 @@ function loadNP(nickname) {
 }
 
 function loadAbsensi(nickname){
-    console.log("user is Active");
+    // console.log("user is Active");
     const loader = createNew(container,"p","Mohon Tunggu Sebentar",{class:"loader"});
 
     const contents = {
@@ -266,7 +265,7 @@ function loadAbsensi(nickname){
 function userIsInactive(nickname){
     // console.log("user is inactive");
     createNew(container,"p","Sepertinya Nama Kamu Belum di Aktifkan Oleh Admin");
-    createNew(container,"input","",{type:"button",onclick:"reloadPage()",value:"Refresh"})
+    createNew(container,"input","",{type:"button",onclick:"reloadPage()",value:"Refresh",id:"div-form"})
 }
 
 function loadUser(nickname) {
@@ -299,6 +298,7 @@ function loadUser(nickname) {
     ) .then(response => response.json()) // Handle the response
     .then(data => {
         console.log('Success: ', data); // Log the response from the server
+        nicknameSection.remove();
         if (data.result == "OK"){
             loadAbsensi(nickname)
         }else{
