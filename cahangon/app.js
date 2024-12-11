@@ -151,21 +151,21 @@ function makeExtraForm() {
 
         errorContainer.innerHTML = ""; // Clear errors
         if (errors.length > 0) {
-            errors.forEach((error) => 
-                createNew(errorContainer, "p", error)
-            );
-            // Add a click event listener to remove it manually
             errorContainer.addEventListener("click", () => {
                 errorContainer.innerHTML = ""
             });
-    
-            // Automatically remove after 3 seconds
+
+            errors.forEach((error) => 
+                createNew(errorContainer, "p", error)
+            );
+
             setTimeout(() => {
             // console.log("Timeout triggered"); // Debug message
             if (document.body.contains(errorContainer)) { // Check if it's still in the DOM
                 errorContainer.innerHTML = ""
             }
             }, 3000);
+           
             return;
         }
         // Prepare Data
