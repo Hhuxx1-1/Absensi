@@ -53,7 +53,7 @@ function setCookie(name, value, days) {
         .then(data => {
             console.log('Success: Notif', data); // Log the response from the server
             if (data.result == "CreatedNew"){
-                createNew(container,"notif","<h1>Successfully Created</h1>");
+                createNew(container,"h1","Successfully Created",{class:"notif"});
             }
             const date = new Date();
             date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Convert days to milliseconds
@@ -201,9 +201,9 @@ function loadP(nickname) {
             console.log('Success:', data); // Log the response from the server
             container.textContent = ""
             if (data.result=="OK"){
-                createNew(container,h1,"Presensi Berhasil");
+                createNew(container,"h1","Presensi Berhasil");
             }else{
-                createNew(container,h1,"Presensi Gagal");
+                createNew(container,"h1","Presensi Gagal");
                 createNew(container,p,"Jika Masalah tetap Berlanjut Hubungi Atmin");
             }
         })
