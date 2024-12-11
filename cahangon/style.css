@@ -216,6 +216,7 @@ div {
 #extra-form {
     max-width: 500px;
     margin: 20px auto;
+    width: 80%;
 }
 
 /* Style the labels */
@@ -223,7 +224,7 @@ div {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-    color: #333;
+    color: #f6f6f6;
 }
 
 /* Style the input fields */
