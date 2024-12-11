@@ -329,10 +329,8 @@ function loadP(nickname) {
             if (data.result=="OK"){
                 createNew(container,"h1","Presensi Berhasil");
                 createNew(container,"p","Setelah Melakukan Presensi anda Bisa Membuat Laporan Kegiatan dengan menekan Tombol \"Buat Laporan\"");
-                if (!divSubmit) {
-                    divSubmit = createNew(container, "div", "", {id: "divSubmit"});
-                }
-                createNew(divSubmit,"input","",{type:"button",onclick:"makeExtraForm()",value:"Buat Laporan"})
+                const divSubmit2 = createNew(container, "div", "", {id: "divSubmit"});
+                createNew(divSubmit2,"input","",{type:"button",onclick:"makeExtraForm()",value:"Buat Laporan"})
             }else{
                 createNew(container,"h1","Presensi Gagal");
                 createNew(container,p,"Jika Masalah tetap Berlanjut Hubungi Atmin");
