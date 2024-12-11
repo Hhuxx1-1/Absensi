@@ -99,6 +99,7 @@ function makeExtraForm() {
     createNew(formKegiatan, "br", "");
 
     const submitButton = createNew(formKegiatan, "input", "", { type: "submit", value: "Kirim Laporan" });
+    const errorContainer = createNew(formKegiatan, "div", "", { id: "errorContainer", class: "error-container" });
 
     inputFileKegiatan.addEventListener("change", async (event) => {
         const files = Array.from(inputFileKegiatan.files);
@@ -146,7 +147,6 @@ function makeExtraForm() {
         if (!inputNamaKoperasi.value.trim()) errors.push("Nama Koperasi is required.");
         if (!inputNamaLokasi.value.trim()) errors.push("Lokasi is required.");
 
-        const errorContainer = createNew(formKegiatan, "div", "", { id: "errorContainer", class: "error-container" });
         errorContainer.innerHTML = ""; // Clear errors
         if (errors.length > 0) {
             errors.forEach((error) => 
