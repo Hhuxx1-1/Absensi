@@ -23,14 +23,6 @@ body {
     background: #f3f3f3;
 }
 
-p {
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #555;
-    margin-bottom: 15px;
-    text-align: justify;
-}
-
 h1 {
     font-family: 'Pacifico', cursive;
     font-size: 2rem;
@@ -39,35 +31,50 @@ h1 {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-form.small-form {
+p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #555;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+#previewImage {
+    margin: 20px 0;
+}
+
+#previewImage canvas {
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     width: 100%;
 }
 
+form .info {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+form div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0;
+}
+
+form input[type="file"] {
+    display: none;
+}
+
 form label {
-    font-size: 1rem;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-form input[type="text"] {
-    padding: 10px;
-    font-size: 1rem;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    margin-bottom: 15px;
-    transition: border-color 0.3s ease;
-}
-
-form input[type="text"]:focus {
-    border-color: #ff7f7f;
-}
-
-form button {
-    padding: 10px 15px;
+    padding: 10px 20px;
     font-size: 1rem;
     font-weight: bold;
     color: white;
@@ -78,6 +85,10 @@ form button {
     transition: background 0.3s ease;
 }
 
-form button:hover {
+form label:hover {
     background: #ff4c4c;
+}
+
+form label:active {
+    background: #e33e3e;
 }
