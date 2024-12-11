@@ -199,10 +199,12 @@ function loadP(nickname) {
         ) .then(response => response.json()) // Handle the response
         .then(data => {
             console.log('Success:', data); // Log the response from the server
+            container.textContent = ""
             if (data.result=="OK"){
-                container.textContent = "<h1 class=\"Center\">Berhasil Melakukan Presensi</h1>"
+                createNew(container,h1,"Presensi Berhasil");
             }else{
-                container.textContent = "<h1 class=\"Center\">Presensi Invalid</h1>"
+                createNew(container,h1,"Presensi Gagal");
+                createNew(container,p,"Jika Masalah tetap Berlanjut Hubungi Atmin");
             }
         })
         .catch((error) => {
