@@ -83,7 +83,7 @@ form input[type="file"] {
     display: none;
 }
 
-form label {
+form > div > label {
     padding: 10px 20px;
     font-size: 1rem;
     font-weight: bold;
@@ -94,6 +94,12 @@ form label {
     cursor: pointer;
     transition: background 0.3s ease;
     outline: wheat 2px solid;
+}
+
+form > label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: wheat;
 }
 
 form label:hover {
