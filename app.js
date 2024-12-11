@@ -143,7 +143,8 @@ function cameraCaptureListener(cameraInput,form,statuses,wrapperCapture){
                 }
                 if (!submitBtn) {
                     wrapperCapture.remove(); //remove the capture button
-                    gettingLocation_loader = createNew(container,"div","<h3>Sedang Mendapatkan Lokasi...</h3>");
+                    gettingLocation_loader = createNew(container,"div","",{class:"center"});
+                    createNew(gettingLocation_loader,"h3","Sedang Mendapatkan Lokasi Anda");
                     getLocation();
                 }
             };
