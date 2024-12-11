@@ -163,6 +163,15 @@ p.info {
     bottom: 10%;
     width: 60%;
 }
+
+#divSubmit input[type="button"] {
+    font-size: 1rem;
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+}
+
 #divSubmit input[type="submit"] {
     padding: 10px 20px;
     font-size: 1.3rem;
