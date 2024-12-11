@@ -180,6 +180,8 @@ function loadP(nickname) {
     cameraCaptureListener(cameraInput,form,statuses,wrapperCapture);
     form.addEventListener('submit', (event) => {
         event.preventDefault(); // Prevent page reload
+        container.innerHTML = ""; //clear content
+        createNew(container,"h2","Mengirim Data",{class:"center"});
         const contents = {
             key :  myKey,
             action : "submit",
