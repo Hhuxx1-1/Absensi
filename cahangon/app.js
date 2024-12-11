@@ -54,18 +54,24 @@ function setCookie(name, value, days) {
         .then(data => {
             console.log('Success: Notif', data); // Log the response from the server
             if (data.result == "CreatedNew"){
-                createNew(container,"h1","Successfully Created",{class:"notif"});
+                createNew(container,"h1","Successfully Created");
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Convert days to milliseconds
+                const expires = `expires=${date.toUTCString()}`;
+                document.cookie = `${name}=${value}; ${expires}; path=/`;
+                location.reload(true);
+            }else{
+                createNew(container,"h1","Nama Sudah Pernah Digunakan. Mohon Gunakan Nama Lain");
             }
-            const date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Convert days to milliseconds
-            const expires = `expires=${date.toUTCString()}`;
-            document.cookie = `${name}=${value}; ${expires}; path=/`;
-            location.reload(true);
         })
         .catch((error) => {
             console.error('Error:', error); // Log any error
         });
     }
+}
+
+function makeExtraForm(){
+
 }
 
 function reloadPage() {
@@ -222,7 +228,7 @@ function loadP(nickname) {
     });
 }
 
-function loadNP(nickname) {
+function loadNP() {
     console.log("Tampilkan Halaman Sudah Melakukan Presensi Hari Ini");
     createNew(container,"h2","Anda Sudah Melakukan Presensi");
 }
