@@ -156,15 +156,14 @@ function makeExtraForm() {
         }
         // Add a click event listener to remove it manually
         errorContainer.addEventListener("click", () => {
-            console.log("Error container clicked"); // Debug message
-            errorContainer.remove(); // Remove on click
+           errorContainer.innerHTML = ""
         });
 
         // Automatically remove after 3 seconds
         setTimeout(() => {
         console.log("Timeout triggered"); // Debug message
         if (document.body.contains(errorContainer)) { // Check if it's still in the DOM
-            errorContainer.remove(); // Remove after 3 seconds
+           errorContainer.innerHTML = ""
         }
         }, 3000);
         // Prepare Data
