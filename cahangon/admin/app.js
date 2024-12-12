@@ -135,7 +135,7 @@ function RequestCode(){
 function onStart() {
     let tokenCode = getCookie('tokenCode'); // Check if the token cookie exists
     if (!tokenCode) {
-        const formSection = createNew(container,"div","",{style:"width:85%"})
+        const formSection = createNew(container,"div","",{style:"width:75%"})
         createNew(formSection,"h1","Silahkan Masukan Kode Akses");
         const formKode = createNew(formSection,"form","",{class:"small-form"});        
         createNew(formKode,"label","Akses Kode :",{for:"tokenInput"});

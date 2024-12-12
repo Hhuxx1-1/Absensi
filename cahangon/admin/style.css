@@ -114,7 +114,7 @@ form label:active {
 form.small-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
 form.small-form label {
@@ -303,4 +303,20 @@ div#errorContainer {
     margin: 6px 17px;
     border-radius: 7px;
     padding: 7px;
+}
+
+div.center {
+    width: 50%;
+    margin: 20px auto;
+}
+
+input.button {
+    padding: 10px;
+    font-size: 1rem;
+    color: white;
+    background-color: #909498;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
