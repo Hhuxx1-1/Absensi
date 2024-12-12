@@ -108,6 +108,30 @@ function tryAccess(){
         });
 }
 
+function RequestCode(){
+    const contents = {
+        key :  myKey,
+        action : "trySendToken"
+    };
+
+    fetch(endpoint, 
+    { 
+        redirect: "follow",
+        method: 'POST', // Sending a POST request
+        headers: {
+            'Content-Type': 'text/plain;charset=utf-8', // Specify content type as text
+        },
+        body: JSON.stringify(contents), // Convert data to JSON string
+        }
+    ) .then(response => response.json()) // Handle the response
+    .then(data => {
+        console.log('Success: Notif', data); // Log the response from the server
+    })
+    .catch((error) => {
+        console.error('Error:', error); // Log any error
+    });
+}
+
 function onStart() {
     let tokenCode = getCookie('tokenCode'); // Check if the token cookie exists
     if (!tokenCode) {
@@ -115,12 +139,14 @@ function onStart() {
         createNew(formSection,"h1","Silahkan Masukan Kode Akses");
         const formKode = createNew(formSection,"form","",{class:"small-form"});        
         createNew(formKode,"label","Akses Kode :",{for:"tokenInput"});
-        const nicknameInput = createNew(formKode,"input","",{type:"text", id:"nicknameInput"});
-        createNew(formKode,"button","Konfirmasi",{type:"submit"});
+        const nicknameInput = createNew(formKode,"input","",{type:"text",name:"tokenInput", id:"tokenInput"});
+        createNew(formKode,"button","Gunakan",{type:"submit"});
+
+        const sendCode_container = createNew(formSection,"div","",{class:"center"});
+        const sendCode = createNew(sendCode_container,"input","",{value:"Kirim Kode",onclick:"RequestCode()",class:"button"});
+
         formKode.addEventListener('submit', (event) => {
         event.preventDefault(); // Prevent page reload
-
-        const sendCode = createNew(formSection,"input","",{value:"Kirim Kode",onclick:"RequestCode()",class:"button"});
         
         // Get the input value
         token = nicknameInput.value.trim();
