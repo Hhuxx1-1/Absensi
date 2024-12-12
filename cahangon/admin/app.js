@@ -58,6 +58,10 @@ function setCookie(name, value, days) {
                 location.reload(true);
             }else{
                 createNew(container,"h1","Kode Invalid");
+                // delay 3 second then reload
+                setTimeout(function(){
+                    reloadPage();
+                },3000)
             }
         })
         .catch((error) => {
@@ -155,8 +159,6 @@ function onStart() {
           // Save the token as a cookie
           setCookie('tokenCode', token, 0.00694444); // Save for 10 minutes
           formSection.remove();
-        } else {
-          alert('Please enter a valid token.');
         }
       });
     } else {
