@@ -106,8 +106,7 @@ function makeExtraForm() {
     inputFileKegiatan.addEventListener("change", async (event) => {
         const files = Array.from(inputFileKegiatan.files);
         try {
-            base64Images = await Promise.all(files.map(file => convertFileToBase64(file)));
-    
+            base64Images = await Promise.all(files.map(file => convertFileToBase64(file)))
             // Clear previous previews
             previewContainer.innerHTML = "";
     
@@ -306,7 +305,7 @@ function cameraCaptureListener(cameraInput,form,statuses,wrapperCapture){
                 }
                 if (!submitBtn) {
                     wrapperCapture.remove(); //remove the capture button
-                    gettingLocation_loader = createNew(container,"div","",{class:"center"});
+                    gettingLocation_loader = createNew(container,"div","",{class:"notif"});
                     createNew(gettingLocation_loader,"h3","Sedang Mendapatkan Lokasi Anda");
                     getLocation();
                 }
@@ -374,7 +373,7 @@ function loadP(nickname) {
                 createNew(divSubmit2,"input","",{type:"button",onclick:"makeExtraForm()",value:"Buat Laporan"})
             }else{
                 createNew(container,"h1","Presensi Gagal");
-                createNew(container,p,"Jika Masalah tetap Berlanjut Hubungi Atmin");
+                createNew(container,"p","Jika Masalah tetap Berlanjut Hubungi Atmin");
             }
         })
         .catch((error) => {
