@@ -1,6 +1,6 @@
 const endpoint = "https://script.google.com/macros/s/AKfycbwCrFNUiBm2z6J99F8YnDyYIIdwky9rBHUhavWrTXbYiitwPZFgAni4zX3nG797MZ4O-Q/exec";
 const myKey = "CahAngon-demo";
-
+var sendCode;
 var pageData =  { type : "none"};
 
 const container = document.querySelector("section");
@@ -130,6 +130,7 @@ function RequestCode(){
     ) .then(response => response.json()) // Handle the response
     .then(data => {
         console.log('Success: Notif', data); // Log the response from the server
+        
     })
     .catch((error) => {
         console.error('Error:', error); // Log any error
@@ -147,7 +148,7 @@ function onStart() {
         createNew(formKode,"button","Gunakan",{type:"submit"});
 
         const sendCode_container = createNew(formSection,"div","",{class:"center"});
-        const sendCode = createNew(sendCode_container,"input","",{value:"Kirim Kode",onclick:"RequestCode()",class:"button",type:"button"});
+        sendCode = createNew(sendCode_container,"input","",{value:"Kirim Kode",onclick:"RequestCode()",class:"button",type:"button"});
 
         formKode.addEventListener('submit', (event) => {
         event.preventDefault(); // Prevent page reload

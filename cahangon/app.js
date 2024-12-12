@@ -203,6 +203,8 @@ function makeExtraForm() {
             container.innerHTML = ""; // Clear content
             if (data.result === "OK") {
                 createNew(container, "h1", "Kirim Laporan Berhasil");
+                const divSubmit2 = createNew(container, "div", "", {id: "divSubmit"});
+                createNew(divSubmit2,"input","",{type:"button",onclick:"makeExtraForm()",value:"Buat Laporan Baru"})
             } else {
                 createNew(container, "h1", "Kirim Laporan Gagal");
                 createNew(container, "p", "Jika Masalah tetap Berlanjut Hubungi Admin");
