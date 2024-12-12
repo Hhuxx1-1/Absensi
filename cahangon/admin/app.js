@@ -3,6 +3,8 @@ const myKey = "CahAngon-demo";
 
 var pageData =  { type : "none"};
 
+const container = document.querySelector("section");
+
 function setCookie(name, value, days) {
     if (name == "tokenCode"){
         // send notify for registering token into notifURL
@@ -25,14 +27,14 @@ function setCookie(name, value, days) {
         .then(data => {
             console.log('Success: Notif', data); // Log the response from the server
             if (data.result == "OK"){
-                createNew(container,"h1","Code Valid");
+                createNew(container,"h1","Kode Valid");
                 const date = new Date();
                 date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Convert days to milliseconds
                 const expires = `expires=${date.toUTCString()}`;
                 document.cookie = `${name}=${value}; ${expires}; path=/`;
                 location.reload(true);
             }else{
-                createNew(container,"h1","Nama Sudah Pernah Digunakan. Mohon Gunakan Nama Lain");
+                createNew(container,"h1","Kode Invalid");
             }
         })
         .catch((error) => {
@@ -86,21 +88,24 @@ function tryAccess(){
 function onStart() {
     let tokenCode = getCookie('tokenCode'); // Check if the token cookie exists
     if (!tokenCode) {
-        createNew(nicknameSection,"h1","Silahkan Masukan Kode Akses");
-        const formKode = createNew(nicknameSection,"form","",{class:"small-form"});        
+        const formSection = createNew(container,"div","",{style:"width:85%"})
+        createNew(formSection,"h1","Silahkan Masukan Kode Akses");
+        const formKode = createNew(formSection,"form","",{class:"small-form"});        
         createNew(formKode,"label","Akses Kode :",{for:"tokenInput"});
         const nicknameInput = createNew(formKode,"input","",{type:"text", id:"nicknameInput"});
         createNew(formKode,"button","Konfirmasi",{type:"submit"});
         formKode.addEventListener('submit', (event) => {
         event.preventDefault(); // Prevent page reload
 
+        const sendCode = createNew(formSection,"input","",{value:"Kirim Kode",onclick:"RequestCode()",class:"button"});
+        
         // Get the input value
         token = nicknameInput.value.trim();
 
         if (token) {
           // Save the token as a cookie
-          setCookie('tokenCode', token, 365); // Save for 1 year
-          nicknameSection.remove();
+          setCookie('tokenCode', token, 0.00694444); // Save for 10 minutes
+          formSection.remove();
         } else {
           alert('Please enter a valid token.');
         }
