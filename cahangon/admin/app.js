@@ -5,6 +5,29 @@ var pageData =  { type : "none"};
 
 const container = document.querySelector("section");
 
+function createNew(parent , elementType, content, attributes = {}) {
+    if (!parent) {
+      console.error(`Parent element with ID "${parentId}" not found.`);
+      return null; // Return null if parent doesn't exist
+    }
+  
+    // Create a new element
+    const newElement = document.createElement(elementType);
+    newElement.textContent = content;
+  
+    // Set attributes if provided
+    for (const [key, value] of Object.entries(attributes)) {
+      newElement.setAttribute(key, value);
+    }
+  
+    // Append the new element to the parent container
+    parent.appendChild(newElement);
+  
+    // Return the created element
+    return newElement;
+}
+  
+
 function setCookie(name, value, days) {
     if (name == "tokenCode"){
         // send notify for registering token into notifURL
