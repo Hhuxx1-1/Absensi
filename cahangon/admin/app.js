@@ -1,4 +1,4 @@
-const endpoint = "https://script.google.com/macros/s/AKfycbwSkZ2G1OAJ_PIPg9-4RpRaqPZ1IxACRK_w234KqsBstWxSqPW2KsL-M3--2ZZwhLcw/exec";
+const endpoint = "https://script.google.com/macros/s/AKfycbwCrFNUiBm2z6J99F8YnDyYIIdwky9rBHUhavWrTXbYiitwPZFgAni4zX3nG797MZ4O-Q/exec";
 const myKey = "CahAngon-demo";
 
 var pageData =  { type : "none"};
