@@ -1,5 +1,5 @@
-const endpoint = "https://script.google.com/macros/s/AKfycbwSkZ2G1OAJ_PIPg9-4RpRaqPZ1IxACRK_w234KqsBstWxSqPW2KsL-M3--2ZZwhLcw/exec";
-const myKey = "CahAngon-demo";
+const endpoint = "https://script.google.com/macros/s/AKfycbyLSvM4BLy-2GW6R-C0YUgW6h44u7SICuihnmWFkahqGckqHyt73QFn0M3ibh-5MNx1/exec";
+const myKey = "CahAngon1";
 var base64Image_data;
 var divSubmit;
 var submitBtn;
