@@ -143,7 +143,7 @@ function onStart() {
         createNew(formKode,"button","Gunakan",{type:"submit"});
 
         const sendCode_container = createNew(formSection,"div","",{class:"center"});
-        const sendCode = createNew(sendCode_container,"input","",{value:"Kirim Kode",onclick:"RequestCode()",class:"button"});
+        const sendCode = createNew(sendCode_container,"input","",{value:"Kirim Kode",onclick:"RequestCode()",class:"button",type:"button"});
 
         formKode.addEventListener('submit', (event) => {
         event.preventDefault(); // Prevent page reload
