@@ -160,7 +160,7 @@ function onStart() {
         }
       });
     } else {
-      token_ = token;
+      token_ = tokenCode;
       tryAccess();
     }
   }
